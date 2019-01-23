@@ -32,6 +32,20 @@ public class Repository {
 
     }
 
+    public User getUser(String token) throws IOException{
+        try{
+            String bearerToken = "bearer:"+token;
+            Call call = iServices.getUser(bearerToken);
+            Response<User> response = call.execute();
+            if (response.errorBody()!=null){
+                throw defaultError();
+            }
+            return response.body();
+        } catch (IOException e){
+            throw  defaultError();
+        }
+    }
+
     private IOException defaultError(){
         return new IOException("Ha ocurrido un error");
     }
